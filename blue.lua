@@ -247,14 +247,13 @@ PlyBtn.MouseButton1Click:Connect(function()
     end
 end)
 
--- PLAYER ESP (NEW)
+-- Player ESP
 local PlyEspP = CreateFeature("Player Esp", Side2, Cont2)
 Instance.new("UIListLayout", PlyEspP).Padding = UDim.new(0, 12)
 local EspUserIn = Instance.new("TextBox")
 EspUserIn.Size = UDim2.new(1, 0, 0, 50); EspUserIn.BackgroundColor3 = Color3.fromRGB(0,0,0); EspUserIn.PlaceholderText = "Name or 'all'..."; EspUserIn.Parent = PlyEspP; ApplyPixelStyle(EspUserIn, true, 20)
 local EspToggleBtn = Instance.new("TextButton")
 EspToggleBtn.Size = UDim2.new(1, 0, 0, 50); EspToggleBtn.BackgroundColor3 = Color3.fromRGB(0, 40, 150); EspToggleBtn.Text = "ESP: OFF"; EspToggleBtn.Parent = PlyEspP; ApplyPixelStyle(EspToggleBtn, true, 22)
-
 local pEspActive = false; local pEspTable = {}
 EspToggleBtn.MouseButton1Click:Connect(function()
     pEspActive = not pEspActive
@@ -265,7 +264,7 @@ EspToggleBtn.MouseButton1Click:Connect(function()
             if v ~= Player and (target == "all" or v.Name:lower():find(target) or v.DisplayName:lower():find(target)) then
                 if v.Character then
                     local h = Instance.new("Highlight", v.Character)
-                    h.FillColor = Color3.fromRGB(255, 120, 0) -- Orange
+                    h.FillColor = Color3.fromRGB(255, 120, 0)
                     h.FillTransparency = 0.5; table.insert(pEspTable, h)
                 end
             end
@@ -276,26 +275,20 @@ EspToggleBtn.MouseButton1Click:Connect(function()
     end
 end)
 
--- Loops & Toggle Logic
-RunService.Stepped:Connect(function()
-    if flinging and Player.Character then
-        for _, v in pairs(Player.Character:GetDescendants()) do if v:IsA("BasePart") then v.CanCollide = false end end
-    end
-end)
+-- SPC Feature (New Left GUI on Page 2)
+local SPCFeature = CreateFeature("SPC", Side2, Cont2)
+Instance.new("UIListLayout", SPCFeature).Padding = UDim.new(0, 12)
 
-local expanded = true; local ToggleBt = Instance.new("TextButton")
-ToggleBt.Size = UDim2.new(0, 35, 0, 35); ToggleBt.Position = UDim2.new(0, 10, 0, 10); ToggleBt.BackgroundColor3 = Color3.fromRGB(0,0,0); ToggleBt.Text = "-"; ToggleBt.ZIndex = 40; ToggleBt.Parent = MainFrame; ApplyPixelStyle(ToggleBt, true, 25)
-ToggleBt.MouseButton1Click:Connect(function()
-    expanded = not expanded; MainFrame:TweenSize(expanded and UDim2.new(0, 420, 0, 280) or UDim2.new(0, 55, 0, 55), "Out", "Quad", 0.2, true)
-    ToggleBt.Text = expanded and "-" or "+"; TitleLabel.Visible, ArrowLeft.Visible, ArrowRight.Visible, PageContainer.Visible = expanded, expanded, expanded, expanded
-end)
+local SPCInput = Instance.new("TextBox")
+SPCInput.Size = UDim2.new(1, 0, 0, 50)
+SPCInput.BackgroundColor3 = Color3.fromRGB(0,0,0)
+SPCInput.PlaceholderText = "Enter player name..."
+SPCInput.Parent = SPCFeature
+ApplyPixelStyle(SPCInput, true, 20)
 
-local dragging, dS, sP
-MainFrame.InputBegan:Connect(function(input)
-    if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) then dragging = true; dS = input.Position; sP = MainFrame.Position; input.Changed:Connect(function() if input.UserInputState == Enum.UserInputState.End then dragging = false end end) end
-end)
-UserInputService.InputChanged:Connect(function(input)
-    if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
-        local delta = input.Position - dS; MainFrame.Position = UDim2.new(sP.X.Scale, sP.X.Offset + delta.X, sP.Y.Scale, sP.Y.Offset + delta.Y)
-    end
-end)
+local SPCToggle = Instance.new("TextButton")
+SPCToggle.Size = UDim2.new(1, 0, 0, 50)
+SPCToggle.BackgroundColor3 = Color3.fromRGB(0, 40, 150)
+SPCToggle.Text = "ESP: OFF"
+SPCToggle.Parent = SPCFeature
+ApplyPixelStyle(S
